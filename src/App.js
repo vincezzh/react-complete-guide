@@ -23,9 +23,18 @@ class App extends Component {
         this.setState({
             persons: [
                 {name: 'Vince', age: 36},
-                {name: event.target.value, age: 35}
-            ]
+                {name: 'Sukie', age: 35},
+                {name: 'Mavis', age: 6},
+                {name: 'Lucas', age: 5}
+            ],
+            otherState: 'some other value',
+            showPersons: false
         })
+    }
+
+    togglePersonsHandler = () => {
+        const doesShow = this.state.showPersons;
+        this.setState({showPersons: !doesShow});
     }
 
   render() {
@@ -37,23 +46,33 @@ class App extends Component {
         cursor: 'pointer'
     };
 
+    let persons = null;
+
+    if (this.state.showPersons) {
+        persons = (
+            <div>
+                <Person
+                    name={this.state.persons[0].name}
+                    age={this.state.persons[0].age}
+                    click={this.switchNameHandler.bind(this, "Mavis Zhang")}
+                ></Person>
+                <Person
+                    name={this.state.persons[1].name}
+                    age={this.state.persons[1].age}
+                    changed={this.nameChangedHandler}
+                ></Person>
+            </div>
+        );
+    }
+
     return (
       <div className="App">
           <h1>Hi, I'm a React App</h1>
           <p>This is really working!</p>
           <button
               style={style}
-              onClick={() => this.switchNameHandler("Kaka")}>Switch Name</button>
-          <Person
-              name={this.state.persons[0].name}
-              age={this.state.persons[0].age}
-              click={this.switchNameHandler.bind(this, "Mavis Zhang")}
-          ></Person>
-          <Person
-              name={this.state.persons[1].name}
-              age={this.state.persons[1].age}
-              changed={this.nameChangedHandler}
-          ></Person>
+              onClick={this.togglePersonsHandler}>Switch Name</button>
+          {persons}
       </div>
     );
   }
