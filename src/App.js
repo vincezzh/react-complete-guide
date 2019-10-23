@@ -6,8 +6,12 @@ class App extends Component {
     state = {
         persons: [
             {name: 'Vince', age: 36},
-            {name: 'Sukie', age: 35}
-        ]
+            {name: 'Sukie', age: 35},
+            {name: 'Mavis', age: 6},
+            {name: 'Lucas', age: 5}
+        ],
+        otherState: 'some other value',
+        showPersons: false
     }
 
     switchNameHandler = (newName) => {
@@ -23,12 +27,10 @@ class App extends Component {
         this.setState({
             persons: [
                 {name: 'Vince', age: 36},
-                {name: 'Sukie', age: 35},
+                {name: event.target.value, age: 35},
                 {name: 'Mavis', age: 6},
                 {name: 'Lucas', age: 5}
-            ],
-            otherState: 'some other value',
-            showPersons: false
+            ]
         })
     }
 
@@ -51,16 +53,12 @@ class App extends Component {
     if (this.state.showPersons) {
         persons = (
             <div>
-                <Person
-                    name={this.state.persons[0].name}
-                    age={this.state.persons[0].age}
-                    click={this.switchNameHandler.bind(this, "Mavis Zhang")}
-                ></Person>
-                <Person
-                    name={this.state.persons[1].name}
-                    age={this.state.persons[1].age}
-                    changed={this.nameChangedHandler}
-                ></Person>
+                {this.state.persons.map(person => {
+                    return <Person
+                        name={person.name}
+                        age={person.age}
+                    ></Person>
+                })}
             </div>
         );
     }
